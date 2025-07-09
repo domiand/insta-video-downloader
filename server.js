@@ -1,23 +1,25 @@
 
-const express = require('express');
-const cors = require('cors');
-const axios = require('axios');
+const express = require("express");
+const cors = require("cors");
+const axios = require("axios");
+const path = require("path");
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Serve index.html
+app.use(express.static(__dirname));
 app.use(cors());
 
-app.get('/api/download', async (req, res) => {
+// API endpoint
+app.get("/api/download", async (req, res) => {
   const url = req.query.url;
   try {
-    const response = await axios.get(`https://saveig.app/api/ajaxSearch`, {
+    const response = await axios.get("https://saveig.app/api/ajaxSearch", {
       params: { q: url },
-      headers: {
-        "x-requested-with": "XMLHttpRequest"
-      }
+      headers: { "x-requested-with": "XMLHttpRequest" }
     });
 
-    // You must parse the response to extract the video URL (simplified here)
     const videoUrl = response.data.links?.[0]?.url || null;
 
     if (videoUrl) {
@@ -30,6 +32,12 @@ app.get('/api/download', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Serve HTML at root path
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
 });
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
