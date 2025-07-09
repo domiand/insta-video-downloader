@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagram Video Downloader</title>
+</head>
+<body style="font-family: Arial, sans-serif; text-align: center; padding: 40px;">
+  <h1>🎥 Instagram Video Downloader</h1>
+  <p>Paste your Instagram video/reel URL below:</p>
+  <input type="text" id="urlInput" placeholder="https://www.instagram.com/reel/..." style="padding: 10px; width: 300px;" />
+  <br><br>
+  <button onclick="downloadVideo()" style="padding: 10px 20px;">Download</button>
+  <div id="preview" style="margin-top: 20px;"></div>
+
+  <script>
+    async function downloadVideo() {
+      const url = document.getElementById('urlInput').value;
+      const res = await fetch('https://your-backend-url/api/download?url=' + encodeURIComponent(url));
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById('preview').innerHTML = '<video width="320" controls><source src="' + data.videoUrl + '" type="video/mp4"></video><br><a href="' + data.videoUrl + '" download>Download Video</a>';
+      } else {
+        document.getElementById('preview').innerText = 'Failed to fetch video.';
+      }
+    }
+  </script>
+</body>
+</html>
