@@ -17,7 +17,7 @@
   <script>
     async function downloadVideo() {
       const url = document.getElementById('urlInput').value;
-      const res = await fetch('https://your-backend-url/api/download?url=' + encodeURIComponent(url));
+      const res = await fetch('https://insta-video-backend.onrender.com/api/download?url=' + encodeURIComponent(url));
       const data = await res.json();
       if (data.success) {
         document.getElementById('preview').innerHTML = '<video width="320" controls><source src="' + data.videoUrl + '" type="video/mp4"></video><br><a href="' + data.videoUrl + '" download>Download Video</a>';
