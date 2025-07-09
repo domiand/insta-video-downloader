@@ -17,14 +17,23 @@
   <script>
     async function downloadVideo() {
       const url = document.getElementById('urlInput').value;
-      const res = await fetch('https://insta-video-backend.onrender.com/api/download?url=' + encodeURIComponent(url));
+
+      // Call the hosted backend
+      const res = await fetch('https://instadl-api.onrender.com/api/download?url=' + encodeURIComponent(url));
       const data = await res.json();
+
       if (data.success) {
-        document.getElementById('preview').innerHTML = '<video width="320" controls><source src="' + data.videoUrl + '" type="video/mp4"></video><br><a href="' + data.videoUrl + '" download>Download Video</a>';
+        document.getElementById('preview').innerHTML =
+          '<video width="320" controls><source src="' + data.videoUrl + '" type="video/mp4"></video><br><a href="' + data.videoUrl + '" download>Download Video</a>';
       } else {
-        document.getElementById('preview').innerText = 'Failed to fetch video.';
+        document.getElementById('preview').innerText = '❌ Failed to fetch video. Try a different public Instagram reel.';
       }
     }
   </script>
+
+  <!-- Legal disclaimer -->
+  <p style="font-size: 12px; color: gray; margin-top: 40px;">
+    ⚠️ This tool is for educational and personal use only. We do not host or store any Instagram content.
+  </p>
 </body>
 </html>
